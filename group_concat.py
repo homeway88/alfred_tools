@@ -2,9 +2,7 @@
 # Concat text by comma
 # Written by homeway 2020.8.25
 
-import pyperclip
 import sys
-import time
 from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 
 def trim_title(title, length):

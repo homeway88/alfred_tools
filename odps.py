@@ -2,9 +2,7 @@
 # Odps result to csv
 # Written by homeway 2021.10.10
 
-import pyperclip
 import sys
-import time
 import json
 from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 
