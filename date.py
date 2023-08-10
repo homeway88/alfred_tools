@@ -2,12 +2,10 @@
 # encoding: utf-8
 
 import sys
-from workflow import Workflow, ICON_CLOCK, ICON_ERROR
+from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 from datetime import date, datetime, time as dtime
 import time
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
 SID = 'date_utils'
 
 def toTimestamp(ptime):
@@ -20,6 +18,18 @@ def main(wf):
     text = ''
     if len(args) > 1:
         text = args[1].strip()
+
+    # EventId里的时间戳解析
+    if '_' in text and len(text.split("_")) == 5 and text.split("_")[3].isdigit():
+        ts = int(text.split("_")[3]) / 1000
+        dis_text = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        wf.add_item(title=dis_text, subtitle=text, arg=dis_text, valid=True, icon=ICON_CLOCK)
+
+    # TraceId里的时间戳解析
+    if len(text) == 30 and text[8:21].isdigit():
+        ts = int(text[8:21]) / 1000
+        dis_text = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        wf.add_item(title=dis_text, subtitle=text, arg=dis_text, valid=True, icon=ICON_CLOCK)
 
     # 时间戳解析
     if text.isdigit():

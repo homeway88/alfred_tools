@@ -1,11 +1,10 @@
-# encoding=UTF8
 # Concat text by comma
 # Written by homeway 2020.8.25
 
 import pyperclip
 import sys
 import time
-from workflow import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
+from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 
 
 def trim_title(title, length):
@@ -14,8 +13,6 @@ def trim_title(title, length):
     else:
         return title
 
-def proc_elem_list(elem_list, line_sep, transform_function):
-    return line_sep.join(map(transform_function, elem_list))
 
 def proc_workflow(wf):
     if len(sys.argv) > 1:
@@ -37,26 +34,33 @@ def proc_workflow(wf):
                     valid=False,
                     icon=ICON_INFO)
     else:
-        line_separator = ','
-        elem_list = text.replace("\r", "").split("\n")
+        # remove function params
+        if text.find('(') > 0:
+            text = text[:text.index('(')]
+        # separate class name and function name
+        loc_sep = text.index('#')
+        class_name = text[:loc_sep]
+        function_name = text[loc_sep + 1:]
+        class_and_function = class_name + ' ' + function_name
 
-        concat_by_comma = proc_elem_list(elem_list, line_separator, lambda e: e)
-        concat_by_single_quote = proc_elem_list(elem_list, line_separator, lambda e: "'" + e + "'")
-        concat_by_double_quote = proc_elem_list(elem_list, line_separator, lambda e: "\"" + e + "\"")
+        # add commands
+        watch_cmd = 'watch -x 3 ' + class_and_function + ' {params,returnObj,throwExp}'
+        trace_cmd = 'trace ' + class_and_function
+        class_cmd = 'sc -df ' + class_name
 
-        wf.add_item(title=trim_title(concat_by_comma, 10),
-                    subtitle=concat_by_comma,
-                    arg=concat_by_comma,
+        wf.add_item(title=trim_title(watch_cmd, 10),
+                    subtitle=watch_cmd,
+                    arg=watch_cmd,
                     valid=True,
                     icon=ICON_INFO)
-        wf.add_item(title=trim_title(concat_by_single_quote, 10),
-                    subtitle=concat_by_single_quote,
-                    arg=concat_by_single_quote,
+        wf.add_item(title=trim_title(trace_cmd, 10),
+                    subtitle=trace_cmd,
+                    arg=trace_cmd,
                     valid=True,
                     icon=ICON_INFO)
-        wf.add_item(title=trim_title(concat_by_double_quote, 10),
-                    subtitle=concat_by_double_quote,
-                    arg=concat_by_double_quote,
+        wf.add_item(title=trim_title(class_cmd, 10),
+                    subtitle=class_cmd,
+                    arg=class_cmd,
                     valid=True,
                     icon=ICON_INFO)
 
