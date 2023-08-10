@@ -6,10 +6,7 @@ import pyperclip
 import sys
 import time
 import json
-from workflow import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
+from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 
 def trim_title(title, length):
     if len(title) > length:
@@ -40,8 +37,11 @@ def proc_workflow(wf):
     else:
         if text.startswith("\""):
             text = text[1:-1]
-        text = text.encode(encoding='UTF-8', errors='strict').replace('\\', '')
+        text = text.encode(encoding='UTF-8').replace(b'\\', b'')
+
+        
         outer_list = json.loads(text)
+
         result = ''
         for item in outer_list:
             result += '\t'.join(map(lambda x: str(x), item)) + '\n'

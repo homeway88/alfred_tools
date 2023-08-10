@@ -5,10 +5,7 @@
 import pyperclip
 import sys
 import time
-from workflow import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
+from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 
 def trim_title(title, length):
     if len(title) > length:

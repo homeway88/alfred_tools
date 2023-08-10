@@ -2,12 +2,10 @@
 # encoding: utf-8
 
 import sys
-from workflow import Workflow, ICON_CLOCK, ICON_ERROR
+from ualfred import Workflow, ICON_CLOCK, ICON_ERROR, ICON_GROUP, ICON_INFO
 from datetime import date, datetime, time as dtime
 import time
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
 SID = 'date_utils'
 
 def toTimestamp(ptime):
